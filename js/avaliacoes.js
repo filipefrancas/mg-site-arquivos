@@ -67,7 +67,10 @@
     '.mgav-home .mgav-hero{grid-template-columns:330px 1fr;align-items:stretch;padding:44px 40px}',
     '.mgav-home .mgav-hero h2{font-size:44px;line-height:1;color:#fff;text-transform:uppercase}',
     '.mgav-home .mgav-num b{font-size:84px}',
-    '.mgav-home .mgav-kpis{grid-template-columns:1fr 1fr}',
+    '.mgav-home .mgav-kpis{grid-template-columns:1fr 1fr;margin-top:auto}',
+    '.mgav-home .mgav-num{display:flex;flex-direction:column}',
+    '.mgav-sub{margin:12px 0 18px;font-size:15px;line-height:1.4;color:var(--ci)}',
+    '.mgav-sub b{color:var(--tx)}',
     '.mgav-cab{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:18px;position:relative}',
     '.mgav-bt{display:inline-block;background:#fff;color:var(--az)!important;text-decoration:none!important;font:800 16px "Barlow Condensed",sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:12px 22px;border-radius:12px;white-space:nowrap;transition:transform .15s,box-shadow .15s}',
     '.mgav-bt:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,9,34,.2)}',
@@ -92,7 +95,7 @@
     '@media (max-width:640px){.mgav-grid{grid-template-columns:1fr}.mgav-hero,.mgav-home .mgav-hero{padding:28px 18px;border-radius:18px}.mgav-hero h1,.mgav-home .mgav-hero h2{font-size:34px}.mgav-num b,.mgav-home .mgav-num b{font-size:68px}.mgav-cab{flex-direction:column;align-items:flex-start}.mgav-home{padding:0 14px}.mgav-kpis strong{font-size:24px}}'
   ].join('');
 
-  var IC_ML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 5c-5 0-9 3.1-9 7s4 7 9 7 9-3.1 9-7-4-7-9-7zm4.6 8.6-2.5-2c-.6.5-1.3.8-2.1.8-1 0-1.9-.5-2.5-1.2L7 12.7l-.7-.9 2.6-1.6c.2-.1.5-.1.7.1.4.6 1.1 1 1.9 1 .6 0 1.2-.3 1.6-.7l.8-.8c.2-.2.5-.2.7-.1l3 2.4-1 .5z"/></svg>';
+  var IC_ML = '<b style="font:800 10px Barlow,sans-serif;letter-spacing:-.02em">ML</b>';
   var IC_IG = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="17.4" cy="6.6" r="1.3" fill="currentColor"/></svg>';
   var IC_LUPA = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>';
   var MESES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
@@ -125,7 +128,7 @@
     }
     var quem = ig
       ? (a.link_post ? '<a href="' + esc(a.link_post) + '" target="_blank" rel="noopener">' + esc(a.autor) + '</a>' : '<b>' + esc(a.autor) + '</b>') + ' · Instagram'
-      : '<b>Comprador verificado</b> · Mercado Livre';
+      : '<b>Comprador</b> · Mercado Livre';
     return '<article class="mgav-card"><div class="mgav-topo">' + estrelas(a.estrelas) + '<span class="mgav-data">' + esc(a.data) + '</span></div>' +
       '<blockquote>“' + esc(a.texto) + '”</blockquote>' + peca +
       '<div class="mgav-orig"><span class="mgav-ic ' + (ig ? 'ig">' + IC_IG : 'ml">' + IC_ML) + '</span><span>' + quem + '</span></div></article>';
@@ -218,7 +221,7 @@
     var R = resumo(L);
     box.className = 'mgav mgav-home';
     box.innerHTML = '<section class="mgav-hero">' +
-      '<div class="mgav-num"><b>' + R.total + '</b><span>avaliações positivas</span><div class="mgav-kpis"><div><strong>' + fmt(R.media) + ' ★</strong>média de 5</div><div><strong>' + R.codigos + '</strong>códigos avaliados</div></div></div>' +
+      '<div class="mgav-num"><b>' + R.total + '</b><span>avaliações positivas</span><p class="mgav-sub">Opiniões reais: <b>' + R.ml + '</b> no Mercado Livre e <b>' + R.ig + '</b> no Instagram da MG.</p><div class="mgav-kpis"><div><strong>' + fmt(R.media) + ' ★</strong>média de 5</div><div><strong>' + R.codigos + '</strong>códigos avaliados</div></div></div>' +
       '<div><div class="mgav-cab"><div><span class="mgav-eb">Avaliações reais</span><h2>Quem usa, recomenda</h2></div><a class="mgav-bt" href="/avaliacoes/">Ver todas as avaliações</a></div>' +
       '<div class="mgav-grid">' + destaques(L).map(cartao).join('') + '</div></div></section>';
     conta(box.querySelector('.mgav-num b'), R.total);
