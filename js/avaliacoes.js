@@ -69,6 +69,8 @@
     '.mgav-home .mgav-num b{font-size:84px}',
     '.mgav-home .mgav-kpis{grid-template-columns:1fr 1fr;margin-top:auto}',
     '.mgav-home .mgav-num{display:flex;flex-direction:column}',
+    '.mgav-home .mgav-num b{white-space:nowrap}',
+    '.mgav-home .mgav-num .mgav-est{font-size:22px;letter-spacing:3px;margin-top:12px}',
     '.mgav-sub{margin:12px 0 18px;font-size:15px;line-height:1.4;color:var(--ci)}',
     '.mgav-sub b{color:var(--tx)}',
     '.mgav-cab{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:18px;position:relative}',
@@ -91,6 +93,7 @@
     '.mgav-prod .mgav-card{padding:16px}',
     '.mgav-prod .mgav-card blockquote{font-size:16px}',
     '.mgav-prod .mgav-lk{display:inline-block;margin-top:12px;font:700 14px "Barlow Condensed",sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--az)!important;text-decoration:none}',
+    '@media (max-width:1199px){.mgav-home .mgav-hero{grid-template-columns:1fr}.mgav-home .mgav-num{display:grid;grid-template-columns:auto 1fr;column-gap:24px;align-items:center}.mgav-home .mgav-num b{grid-row:span 2}.mgav-home .mgav-sub{margin:4px 0 0}.mgav-home .mgav-num .mgav-est{display:none}.mgav-home .mgav-kpis{grid-column:1/-1}}',
     '@media (max-width:991px){.mgav-hero,.mgav-home .mgav-hero{grid-template-columns:1fr;padding:34px 24px}.mgav-grid{grid-template-columns:1fr 1fr}.mgav-hero h1{font-size:42px}}',
     '@media (max-width:640px){.mgav-grid{grid-template-columns:1fr}.mgav-hero,.mgav-home .mgav-hero{padding:28px 18px;border-radius:18px}.mgav-hero h1,.mgav-home .mgav-hero h2{font-size:34px}.mgav-num b,.mgav-home .mgav-num b{font-size:68px}.mgav-cab{flex-direction:column;align-items:flex-start}.mgav-home{padding:0 14px}.mgav-kpis strong{font-size:24px}}'
   ].join('');
@@ -221,7 +224,7 @@
     var R = resumo(L);
     box.className = 'mgav mgav-home';
     box.innerHTML = '<section class="mgav-hero">' +
-      '<div class="mgav-num"><b>' + R.total + '</b><span>avaliações positivas</span><p class="mgav-sub">Opiniões reais: <b>' + R.ml + '</b> no Mercado Livre e <b>' + R.ig + '</b> no Instagram da MG.</p><div class="mgav-kpis"><div><strong>' + fmt(R.media) + ' ★</strong>média de 5</div><div><strong>' + R.codigos + '</strong>códigos avaliados</div></div></div>' +
+      '<div class="mgav-num"><b>' + R.total + '</b><span>avaliações positivas</span>' + estrelas(R.media) + '<p class="mgav-sub">Opiniões reais: <b>' + R.ml + '</b> no Mercado Livre e <b>' + R.ig + '</b> no Instagram da MG.</p><div class="mgav-kpis"><div><strong>' + fmt(R.media) + ' ★</strong>média de 5</div><div><strong>' + R.codigos + '</strong>códigos avaliados</div></div></div>' +
       '<div><div class="mgav-cab"><div><span class="mgav-eb">Avaliações reais</span><h2>Quem usa, recomenda</h2></div><a class="mgav-bt" href="/avaliacoes/">Ver todas as avaliações</a></div>' +
       '<div class="mgav-grid">' + destaques(L).map(cartao).join('') + '</div></div></section>';
     conta(box.querySelector('.mgav-num b'), R.total);
