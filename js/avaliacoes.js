@@ -71,8 +71,8 @@
     '.mgav-home .mgav-num{display:flex;flex-direction:column}',
     '.mgav-home .mgav-num>b{white-space:nowrap}',
     '.mgav-home .mgav-num .mgav-est{font-size:22px;letter-spacing:3px;margin-top:12px}',
-    '.mgav-sub{margin:12px 0 18px;font-size:15px;line-height:1.4;color:var(--ci)}',
-    '.mgav-sub b{color:var(--tx)}',
+    '.mgav-num .mgav-sub{margin:12px 0 18px;font-size:15px;line-height:1.4;color:var(--ci);max-width:none}',
+    '.mgav-num .mgav-sub b{color:var(--tx);font-weight:700}',
     '.mgav-cab{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:18px;position:relative}',
     '.mgav-bt{display:inline-block;background:#fff;color:var(--az)!important;text-decoration:none!important;font:800 16px "Barlow Condensed",sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:12px 22px;border-radius:12px;white-space:nowrap;transition:transform .15s,box-shadow .15s}',
     '.mgav-bt:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,9,34,.2)}',
@@ -93,7 +93,7 @@
     '.mgav-prod .mgav-card{padding:16px}',
     '.mgav-prod .mgav-card blockquote{font-size:16px}',
     '.mgav-prod .mgav-lk{display:inline-block;margin-top:12px;font:700 14px "Barlow Condensed",sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--az)!important;text-decoration:none}',
-    '@media (max-width:1199px){.mgav-home .mgav-hero{grid-template-columns:1fr}.mgav-home .mgav-num{display:grid;grid-template-columns:auto 1fr;column-gap:24px;align-items:center}.mgav-home .mgav-num>b{grid-row:span 2}.mgav-home .mgav-sub{margin:4px 0 0}.mgav-home .mgav-num .mgav-est{display:none}.mgav-home .mgav-kpis{grid-column:1/-1}}',
+    '@media (max-width:1199px){.mgav-home .mgav-hero{grid-template-columns:1fr}.mgav-home .mgav-num{display:grid;grid-template-columns:auto 1fr;column-gap:24px;align-items:center}.mgav-home .mgav-num>b{grid-row:span 2}.mgav-home .mgav-num .mgav-sub{margin:4px 0 0}.mgav-home .mgav-num .mgav-est{display:none}.mgav-home .mgav-kpis{grid-column:1/-1}}',
     '@media (max-width:991px){.mgav-hero,.mgav-home .mgav-hero{grid-template-columns:1fr;padding:34px 24px}.mgav-grid{grid-template-columns:1fr 1fr}.mgav-hero h1{font-size:42px}}',
     '@media (max-width:640px){.mgav-grid{grid-template-columns:1fr}.mgav-hero,.mgav-home .mgav-hero{padding:28px 18px;border-radius:18px}.mgav-hero h1,.mgav-home .mgav-hero h2{font-size:34px}.mgav-num>b,.mgav-home .mgav-num>b{font-size:68px}.mgav-cab{flex-direction:column;align-items:flex-start}.mgav-home{padding:0 14px}.mgav-kpis strong{font-size:24px}}'
   ].join('');
