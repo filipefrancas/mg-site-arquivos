@@ -1,0 +1,12 @@
+VW, PASSAT TS, TS, 1979/1979, motor n/i | Volkswagen / Passat / 1979 | 36 peças
+FORD, F14000 HD, HD, 1994/1995, 5882 cc | Ford / modelo não casado / 1995 | 0 peças
+GM, 6000 CUSTOM, CUSTOM, 1995/1996, 4000 cc | Chevrolet / modelo não casado / 1996 | 0 peças
+HONDA, CG 125 FAN, FAN, 2007/2007, 124 cc | Honda / Tornado 250 / 2007 (motor 0.1) | 1 peças
+VW, POLO SEDAN 1.6, 1.6, 2007/2007, 1599 cc | Volkswagen / Polo Sedan / 2007 (motor 1.6) | 6 peças
+FORD, BRONCO S BADLANDS, -, 2025/2025, motor n/i | Ford / modelo não casado / 2025 | 0 peças
+VW, POLO MCA, MCA, 2018/2018, 999 cc | Volkswagen / Polo / 2018 (motor 1.0) | 31 peças
+CHEV, PRISMA 1.4MT LTZ, LTZ, 2013/2014, 1400 cc | marca sem peças MG | 0 peças
+FORD, FOCUS HC FLEX, FLEX, 2011/2012, 1596 cc | Ford / Focus / 2012 (motor 1.6) | 10 peças
+GM, BLAZER EXECUTIVE, EXECUTIVE, 1998/1998, 4300 cc | Chevrolet / Blazer / 1998 (motor 4.3) | 6 peças
+CHEVROLET, ONIX 10MT JOYE, JOYE, 2018/2018, 1000 cc | Chevrolet / Onix / 2018 (motor 1.0) | 23 peças
+IVECO, DAILY 35S14HDCS, 35S14HDCS, 2014/2014, motor n/i | Iveco / Daily / 2014 | 4 peças
