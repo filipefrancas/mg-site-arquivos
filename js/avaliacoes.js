@@ -4,8 +4,13 @@
 (function () {
   if (window.__mgAv) return;
   window.__mgAv = 1;
-  var BASE = 'https://cdn.jsdelivr.net/gh/filipefrancas/mg-site-arquivos@main/';
-  var DADOS = BASE + 'dados/avaliacoes.json';
+  /* VER = commit dos dados no GitHub (o @main do jsDelivr fica preso em cache) */
+  var VER = '683f1474c05f79f08a7824cb87a1b3db0f62f2ec';
+  var BASE = 'https://cdn.jsdelivr.net/gh/filipefrancas/mg-site-arquivos@' + VER + '/';
+  var DADOS = BASE + 'dados/avaliacoes.json';               /* todas: página /avaliacoes/ */
+  var DADOS_HOME = BASE + 'dados/avaliacoes_home.json';     /* resumo + 3 destaques */
+  var DADOS_PROD = BASE + 'dados/avaliacoes_produtos.json'; /* até 6 por código */
+  var BLOCO = 24;
 
   var CSS = [
     '.mgav{--az:#3498db;--az2:#2383c4;--mar:#000922;--am:#ffc21a;--cl:#eef6fc;--bd:#dfe6f3;--tx:#1b2333;--ci:#5b6576;font-family:Barlow,system-ui,sans-serif;color:var(--tx)}',
@@ -89,13 +94,13 @@
     '.mgav-prod{margin:26px 0 8px;border:1px solid var(--bd);border-radius:18px;padding:20px;background:linear-gradient(180deg,#f5faff,#fff)}',
     '.mgav-prod h3{font-size:24px;text-transform:uppercase;color:var(--tx)}',
     '.mgav-prod .mgav-res{display:flex;align-items:center;gap:10px;margin:6px 0 14px;font-size:14px;color:var(--ci);flex-wrap:wrap}',
-    '.mgav-prod .mgav-grid{grid-template-columns:1fr}',
+    '.mgav-prod .mgav-grid{grid-template-columns:1fr 1fr}',
     '.mgav-prod .mgav-card{padding:16px}',
     '.mgav-prod .mgav-card blockquote{font-size:16px}',
     '.mgav-prod .mgav-lk{display:inline-block;margin-top:12px;font:700 14px "Barlow Condensed",sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--az)!important;text-decoration:none}',
     '@media (max-width:1199px){.mgav-home .mgav-hero{grid-template-columns:1fr}.mgav-home .mgav-num{display:grid;grid-template-columns:auto 1fr;column-gap:24px;align-items:center}.mgav-home .mgav-num>b{grid-row:span 2}.mgav-home .mgav-num .mgav-sub{margin:4px 0 0}.mgav-home .mgav-num .mgav-est{display:none}.mgav-home .mgav-kpis{grid-column:1/-1}}',
     '@media (max-width:991px){.mgav-hero,.mgav-home .mgav-hero{grid-template-columns:1fr;padding:34px 24px}.mgav-grid{grid-template-columns:1fr 1fr}.mgav-hero h1{font-size:42px}}',
-    '@media (max-width:640px){.mgav-grid{grid-template-columns:1fr}.mgav-hero,.mgav-home .mgav-hero{padding:28px 18px;border-radius:18px}.mgav-hero h1,.mgav-home .mgav-hero h2{font-size:34px}.mgav-num>b,.mgav-home .mgav-num>b{font-size:68px}.mgav-cab{flex-direction:column;align-items:flex-start}.mgav-home{padding:0 14px}.mgav-kpis strong{font-size:24px}}'
+    '@media (max-width:640px){.mgav-grid,.mgav-prod .mgav-grid{grid-template-columns:1fr}.mgav-hero,.mgav-home .mgav-hero{padding:28px 18px;border-radius:18px}.mgav-hero h1,.mgav-home .mgav-hero h2{font-size:34px}.mgav-num>b,.mgav-home .mgav-num>b{font-size:68px}.mgav-cab{flex-direction:column;align-items:flex-start}.mgav-home{padding:0 14px}.mgav-kpis strong{font-size:24px}}'
   ].join('');
 
   var IC_ML = '<b style="font:800 10px Barlow,sans-serif;letter-spacing:-.02em">ML</b>';
@@ -106,14 +111,16 @@
   function esc(s) { return String(s || '').replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function norm(s) { return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
   function cod(s) { return String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); }
+  /* um anúncio pode ter mais de um código MG ("MG250 / MG016") */
+  function cods(a) { return a._c || (a._c = String(a.codigo || '').split('/').map(cod).filter(Boolean)); }
   function linha(p) {
     p = norm(p);
     if (!p) return '';
     if (/coxim/.test(p)) return 'Coxins';
     if (/reservat/.test(p)) return 'Reservatórios';
     if (/tampa/.test(p) && /valvul|comando/.test(p)) return 'Tampas de válvulas';
-    if (/radiador|refrigera/.test(p)) return 'Mangueiras de radiador';
-    if (/respiro|antichama|filtro (de )?ar/.test(p)) return 'Ar e respiro';
+    if (/radiador|refrigera|arrefec|termostat|cavalete|tubo (d[ae] )?agua/.test(p)) return 'Arrefecimento';
+    if (/respiro|anti.?chama|defletor|filtro (d[eo] )?ar|tbi/.test(p)) return 'Ar e respiro';
     if (/tanque|combust/.test(p)) return 'Combustível';
     return 'Outras peças';
   }
@@ -125,7 +132,7 @@
     var ig = a.origem === 'Instagram';
     var peca = '';
     if (a.codigo) {
-      peca = '<a class="mgav-peca" href="' + esc(a.url_produto || ('/produtos/' + a.codigo.toLowerCase() + '/')) + '"><span><strong>' + esc(a.codigo) + '</strong>' + esc(a.peca) + (a.carro ? ' · ' + esc(a.carro) : '') + '</span><u>Ver peça →</u></a>';
+      peca = '<a class="mgav-peca" href="' + esc(a.url_produto || ('/produtos/' + cods(a)[0].toLowerCase() + '/')) + '"><span><strong>' + esc(a.codigo) + '</strong>' + esc(a.peca) + (a.carro ? ' · ' + esc(a.carro) : '') + '</span><u>Ver peça →</u></a>';
     } else if (a.peca) {
       peca = '<div class="mgav-peca"><span>' + esc(a.peca) + '</span></div>';
     }
@@ -138,19 +145,20 @@
   }
 
   function resumo(L) {
-    var soma = 0, cods = {}, ml = 0, ig = 0;
-    L.forEach(function (a) { soma += a.estrelas || 5; if (a.codigo) cods[cod(a.codigo)] = 1; if (a.origem === 'Instagram') ig++; else ml++; });
-    return { total: L.length, media: L.length ? soma / L.length : 0, codigos: Object.keys(cods).length, ml: ml, ig: ig };
+    var soma = 0, cs = {}, ml = 0, ig = 0;
+    L.forEach(function (a) { soma += a.estrelas || 5; cods(a).forEach(function (c) { cs[c] = 1; }); if (a.origem === 'Instagram') ig++; else ml++; });
+    return { total: L.length, media: L.length ? soma / L.length : 0, codigos: Object.keys(cs).length, ml: ml, ig: ig };
   }
   function fmt(n) { return n.toFixed(1).replace('.', ','); }
+  function mil(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
   function conta(el, fim) {
-    if (!('IntersectionObserver' in window)) { el.textContent = fim; return; }
+    if (!('IntersectionObserver' in window)) { el.textContent = mil(fim); return; }
     el.textContent = '0';
     var io = new IntersectionObserver(function (es) {
       if (!es[0].isIntersecting) return;
       io.disconnect();
       var t0 = null;
-      function passo(t) { if (!t0) t0 = t; var p = Math.min(1, (t - t0) / 1200); el.textContent = Math.round(fim * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(passo); }
+      function passo(t) { if (!t0) t0 = t; var p = Math.min(1, (t - t0) / 1200); el.textContent = mil(fim * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(passo); }
       requestAnimationFrame(passo);
     });
     io.observe(el);
@@ -170,65 +178,56 @@
     box.innerHTML =
       '<section class="mgav-hero"><div><span class="mgav-eb">Avaliações reais</span><h1>Quem usa, recomenda</h1>' +
       '<p>Opiniões de quem comprou peças MG no Mercado Livre e comentários de autopeças e oficinas no nosso Instagram. Textos sem edição.</p></div>' +
-      '<div class="mgav-num"><b data-n="' + R.total + '">' + R.total + '</b><span>avaliações positivas</span>' +
-      '<div class="mgav-kpis"><div><strong>' + fmt(R.media) + ' ★</strong>média de 5</div><div><strong>' + R.codigos + '</strong>códigos avaliados</div><div><strong>' + R.ml + ' + ' + R.ig + '</strong>Mercado Livre + Instagram</div></div></div></section>' +
+      '<div class="mgav-num"><b data-n="' + R.total + '">' + mil(R.total) + '</b><span>avaliações positivas</span>' +
+      '<div class="mgav-kpis"><div><strong>' + fmt(R.media) + ' ★</strong>média de 5</div><div><strong>' + R.codigos + '</strong>códigos avaliados</div><div><strong>' + mil(R.ml) + ' + ' + R.ig + '</strong>Mercado Livre + Instagram</div></div></div></section>' +
       '<div class="mgav-barra"><label class="mgav-busca">' + IC_LUPA + '<input type="search" placeholder="Buscar por código (ex.: MG091), peça ou carro" aria-label="Buscar avaliações"></label>' +
-      '<div class="mgav-chips" data-f="l"><em>Linha</em><button class="mgav-chip on" data-v="">Todas</button>' + nomesL.map(function (n) { return '<button class="mgav-chip" data-v="' + esc(n) + '">' + esc(n) + '<i>' + linhas[n] + '</i></button>'; }).join('') + '</div>' +
-      '<div class="mgav-chips" data-f="o"><em>Origem</em><button class="mgav-chip on" data-v="">Todas</button><button class="mgav-chip" data-v="Mercado Livre">Mercado Livre<i>' + R.ml + '</i></button><button class="mgav-chip" data-v="Instagram">Instagram<i>' + R.ig + '</i></button></div></div>' +
-      '<p class="mgav-info"></p><div class="mgav-grid"></div><button class="mgav-mais" type="button">Carregar mais</button>' +
+      '<div class="mgav-chips" data-f="l"><em>Linha</em><button class="mgav-chip on" data-v="">Todas</button>' + nomesL.map(function (n) { return '<button class="mgav-chip" data-v="' + esc(n) + '">' + esc(n) + '<i>' + mil(linhas[n]) + '</i></button>'; }).join('') + '</div>' +
+      '<div class="mgav-chips" data-f="o"><em>Origem</em><button class="mgav-chip on" data-v="">Todas</button><button class="mgav-chip" data-v="Mercado Livre">Mercado Livre<i>' + mil(R.ml) + '</i></button><button class="mgav-chip" data-v="Instagram">Instagram<i>' + R.ig + '</i></button></div></div>' +
+      '<p class="mgav-info"></p><div class="mgav-grid"></div><button class="mgav-mais" type="button">Ver mais avaliações</button>' +
       '<p class="mgav-nota">Avaliações do Mercado Livre exibidas sem o nome do comprador. Atualizamos esta página periodicamente.</p>';
     conta(box.querySelector('.mgav-num b'), R.total);
-    var f = { l: '', o: '', q: '' }, vis = 12, grid = box.querySelector('.mgav-grid'), mais = box.querySelector('.mgav-mais'), info = box.querySelector('.mgav-info');
+    var f = { l: '', o: '', q: '' }, vis = BLOCO, grid = box.querySelector('.mgav-grid'), mais = box.querySelector('.mgav-mais'), info = box.querySelector('.mgav-info');
     function filtra() {
       var q = norm(f.q).trim(), qc = cod(f.q);
-      var exato = qc.length >= 3 && /\d/.test(qc) && L.some(function (a) { return cod(a.codigo) === qc; });
+      var exato = qc.length >= 3 && /\d/.test(qc) && L.some(function (a) { return cods(a).indexOf(qc) > -1; });
       return L.filter(function (a) {
         if (f.l && a._l !== f.l) return false;
         if (f.o && a.origem !== f.o) return false;
         if (!q) return true;
-        if (exato) return cod(a.codigo) === qc;
-        if (qc.length >= 3 && /\d/.test(qc) && cod(a.codigo).indexOf(qc) === 0) return true;
+        if (exato) return cods(a).indexOf(qc) > -1;
+        if (qc.length >= 3 && /\d/.test(qc) && cods(a).some(function (c) { return c.indexOf(qc) === 0; })) return true;
         return norm([a.codigo, a.peca, a.carro, a.texto].join(' ')).indexOf(q) > -1;
       });
     }
     function desenha() {
       var F = filtra();
       grid.innerHTML = F.length ? F.slice(0, vis).map(cartao).join('') : '<div class="mgav-vazio" style="grid-column:1/-1">Ainda não temos avaliações para essa busca. Novas avaliações entram aqui com frequência.</div>';
-      info.textContent = F.length + (F.length === 1 ? ' avaliação' : ' avaliações') + (f.l || f.o || f.q ? ' encontradas' : '');
+      info.textContent = mil(F.length) + (F.length === 1 ? ' avaliação' : ' avaliações') + (f.l || f.o || f.q ? ' encontradas' : '') + (F.length > vis ? ' · mostrando ' + mil(vis) : '');
       mais.style.display = F.length > vis ? '' : 'none';
     }
     box.querySelectorAll('.mgav-chips').forEach(function (g) {
       g.addEventListener('click', function (e) {
         var b = e.target.closest('.mgav-chip'); if (!b) return;
         g.querySelectorAll('.mgav-chip').forEach(function (x) { x.classList.toggle('on', x === b); });
-        f[g.getAttribute('data-f')] = b.getAttribute('data-v'); vis = 12; desenha();
+        f[g.getAttribute('data-f')] = b.getAttribute('data-v'); vis = BLOCO; desenha();
       });
     });
     var inp = box.querySelector('input'), tm;
-    inp.addEventListener('input', function () { clearTimeout(tm); tm = setTimeout(function () { f.q = inp.value; vis = 12; desenha(); }, 180); });
+    inp.addEventListener('input', function () { clearTimeout(tm); tm = setTimeout(function () { f.q = inp.value; vis = BLOCO; desenha(); }, 180); });
     var qs = /[?&]c=([^&]+)/.exec(location.search);
     if (qs) { inp.value = decodeURIComponent(qs[1]); f.q = inp.value; }
-    mais.addEventListener('click', function () { vis += 12; desenha(); });
+    mais.addEventListener('click', function () { vis += BLOCO; desenha(); });
     desenha();
   }
 
   /* ---------- home ---------- */
-  function destaques(L) {
-    var out = [], usados = {};
-    var ml = L.filter(function (a) { return a.origem !== 'Instagram' && a.codigo && a.texto.length >= 40 && a.texto.length <= 170 && (a.estrelas || 5) === 5; })
-      .sort(function (a, b) { return b.texto.length - a.texto.length; });
-    ml.forEach(function (a) { if (out.length < 2 && !usados[a.codigo]) { usados[a.codigo] = 1; out.push(a); } });
-    var ig = L.filter(function (a) { return a.origem === 'Instagram' && a.texto.length <= 200; }).sort(function (a, b) { return b.texto.length - a.texto.length; })[0];
-    if (ig) out.splice(1, 0, ig);
-    return out;
-  }
-  function home(box, L) {
-    var R = resumo(L);
+  function home(box, H) {
+    var R = H.resumo;
     box.className = 'mgav mgav-home';
     box.innerHTML = '<section class="mgav-hero">' +
-      '<div class="mgav-num"><b>' + R.total + '</b><span>avaliações positivas</span>' + estrelas(R.media) + '<p class="mgav-sub">Opiniões reais: <b>' + R.ml + '</b> no Mercado Livre e <b>' + R.ig + '</b> no Instagram da MG.</p><div class="mgav-kpis"><div><strong>' + fmt(R.media) + ' ★</strong>média de 5</div><div><strong>' + R.codigos + '</strong>códigos avaliados</div></div></div>' +
+      '<div class="mgav-num"><b>' + mil(R.total) + '</b><span>avaliações positivas</span>' + estrelas(R.media) + '<p class="mgav-sub">Opiniões reais: <b>' + mil(R.ml) + '</b> no Mercado Livre e <b>' + R.ig + '</b> no Instagram da MG.</p><div class="mgav-kpis"><div><strong>' + fmt(R.media) + ' ★</strong>média de 5</div><div><strong>' + R.codigos + '</strong>códigos avaliados</div></div></div>' +
       '<div><div class="mgav-cab"><div><span class="mgav-eb">Avaliações reais</span><h2>Quem usa, recomenda</h2></div><a class="mgav-bt" href="/avaliacoes/">Ver todas as avaliações</a></div>' +
-      '<div class="mgav-grid">' + destaques(L).map(cartao).join('') + '</div></div></section>';
+      '<div class="mgav-grid">' + (H.destaques || []).map(cartao).join('') + '</div></div></section>';
     conta(box.querySelector('.mgav-num b'), R.total);
   }
 
@@ -241,22 +240,28 @@
     var m = ((document.querySelector('h1') || {}).textContent || '').match(/MG-?[A-Z]?\d+[A-Z]?/i);
     return m ? m[0] : '';
   }
-  function produto(box, L) {
+  function produto(box, P) {
     var n = 0, t = setInterval(function () {
       var c = cod(codProduto());
       if (!c && ++n < 40) return;
       clearInterval(t);
-      var M = ordena(L.filter(function (a) { return a.codigo && cod(a.codigo) === c; }));
-      if (!c || !M.length) { box.style.display = 'none'; return; }
-      var R = resumo(M);
+      var I = c && P[c];
+      if (!I || !I.itens.length) { box.style.display = 'none'; return; }
+      var M = I.itens, R = { total: I.n, media: I.media };
       box.className = 'mgav mgav-prod';
-      box.innerHTML = '<h3>O que dizem desta peça</h3><div class="mgav-res">' + estrelas(R.media) + '<span><b>' + fmt(R.media) + '</b> de 5 · ' + R.total + (R.total === 1 ? ' avaliação' : ' avaliações') + ' no Mercado Livre</span></div>' +
-        '<div class="mgav-grid">' + M.slice(0, 3).map(cartao).join('') + '</div>' +
-        '<a class="mgav-lk" href="/avaliacoes/?c=' + encodeURIComponent(c) + '">' + (M.length > 3 ? 'Ver as ' + M.length + ' avaliações desta peça →' : 'Ver todas as avaliações MG →') + '</a>';
+      box.innerHTML = '<h3>O que dizem desta peça</h3><div class="mgav-res">' + estrelas(R.media) + '<span><b>' + fmt(R.media) + '</b> de 5 · ' + mil(R.total) + (R.total === 1 ? ' avaliação' : ' avaliações') + ' no Mercado Livre</span></div>' +
+        '<div class="mgav-grid">' + M.slice(0, 6).map(cartao).join('') + '</div>' +
+        '<a class="mgav-lk" href="/avaliacoes/?c=' + encodeURIComponent(c) + '">' + (R.total > 6 ? 'Ver as ' + mil(R.total) + ' avaliações desta peça →' : 'Ver todas as avaliações MG →') + '</a>';
       box.querySelectorAll('.mgav-peca').forEach(function (p) { p.remove(); });
       var onde = document.getElementById('mg-onde');
       if (onde && onde.parentNode) onde.insertAdjacentElement('afterend', box);
     }, 250);
+  }
+
+  function perto(el, fn) {
+    if (!('IntersectionObserver' in window)) return fn();
+    var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); fn(); } }, { rootMargin: '600px 0px' });
+    io.observe(el);
   }
 
   function inicia() {
@@ -265,15 +270,13 @@
     var pr = document.getElementById('mg-av-prod');
     if (!pg && !hm && !pr) return;
     css();
-    fetch(DADOS).then(function (r) { return r.json(); }).then(function (L) {
-      L = (L || []).filter(function (a) { return a && a.texto && (a.estrelas || 5) >= 4; });
-      if (pg) pagina(pg, L);
-      if (hm) home(hm, L);
-      if (pr) produto(pr, L);
-    }).catch(function () {
-      if (hm) hm.style.display = 'none';
-      if (pr) pr.style.display = 'none';
-    });
+    function pega(u) { return fetch(u).then(function (r) { if (!r.ok) throw r.status; return r.json(); }); }
+    if (pg) pega(DADOS).then(function (L) {
+      pagina(pg, (L || []).filter(function (a) { return a && a.texto && (a.estrelas || 5) >= 4; }));
+    }).catch(function () {});
+    /* home: arquivo pequeno, só quando a seção chega perto da tela */
+    if (hm) perto(hm, function () { pega(DADOS_HOME).then(function (H) { home(hm, H); }).catch(function () { hm.style.display = 'none'; }); });
+    if (pr) pega(DADOS_PROD).then(function (P) { produto(pr, P || {}); }).catch(function () { pr.style.display = 'none'; });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', inicia); else inicia();
 })();
