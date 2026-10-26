@@ -5,7 +5,7 @@
   if (window.__mgAv) return;
   window.__mgAv = 1;
   /* VER = commit dos dados no GitHub (o @main do jsDelivr fica preso em cache) */
-  var VER = '34b848c963abfe3db8cdc7b6925060604d0a85ef';
+  var VER = 'c1a7ec4622eccc27737edb123c312625d5d34733';
   var BASE = 'https://cdn.jsdelivr.net/gh/filipefrancas/mg-site-arquivos@' + VER + '/';
   var DADOS = BASE + 'dados/avaliacoes.json';               /* todas: página /avaliacoes/ */
   var DADOS_HOME = BASE + 'dados/avaliacoes_home.json';     /* resumo + 3 destaques */
