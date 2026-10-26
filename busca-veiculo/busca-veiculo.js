@@ -314,5 +314,8 @@
 
   /* abre direto por #veiculo=Marca|Modelo|Ano (links compartilháveis) */
   var h = /veiculo=([^&]+)/.exec(decodeURIComponent(location.hash || ''));
+  /* abre direto por #placa=ABC1D23 (campo de placa da home) */
+  var hp = /placa=([A-Za-z0-9-]{7,8})/.exec(location.hash || '');
+  if (hp && PLACA_URL) { inPlaca.value = normalizarPlaca(hp[1]); setTimeout(buscarPorPlaca, 0); }
   if (h) { var pp = h[1].split('|'); dadosBase().then(function () { if (indice.marcas[pp[0]]) { selMarca.value = pp[0]; selMarca.dispatchEvent(new Event('change')); selModelo.value = pp[1] || ''; selModelo.dispatchEvent(new Event('change')); if (pp[1]) buscar({ marca: pp[0], modelo: pp[1], ano: +pp[2] || 0, motor: '', cil: 0 }, null); } }); }
 })();
