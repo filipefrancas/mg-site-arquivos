@@ -258,10 +258,16 @@
     }, 250);
   }
 
+  /* roda fn uma vez: quando a seção chega perto da tela ou logo depois do carregamento da página (o que vier primeiro) */
   function perto(el, fn) {
-    if (!('IntersectionObserver' in window)) return fn();
-    var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); fn(); } }, { rootMargin: '600px 0px' });
-    io.observe(el);
+    var feito = 0, io;
+    function vai() { if (feito) return; feito = 1; if (io) io.disconnect(); fn(); }
+    if ('IntersectionObserver' in window) {
+      io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) vai(); }, { rootMargin: '600px 0px' });
+      io.observe(el);
+    }
+    function depois() { setTimeout(vai, 1200); }
+    if (document.readyState === 'complete') depois(); else window.addEventListener('load', depois);
   }
 
   function inicia() {
