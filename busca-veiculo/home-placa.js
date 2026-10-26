@@ -32,6 +32,9 @@
   ]));
   raiz.appendChild(form);
   raiz.appendChild(erro);
+  /* fica logo abaixo do card "Encontre a peça certa" (bloco Código 1 da home), se existir */
+  var card = document.getElementById('mh-busca');
+  if (card && card.parentNode) card.parentNode.insertBefore(raiz, card.nextSibling);
   input.addEventListener('input', function () { input.value = input.value.toUpperCase().replace(/[^A-Z0-9-]/g, ''); erro.textContent = ''; });
   form.addEventListener('submit', function (e) {
     e.preventDefault();
