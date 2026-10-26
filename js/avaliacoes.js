@@ -11,6 +11,9 @@
   var DADOS_HOME = BASE + 'dados/avaliacoes_home.json';     /* resumo + 3 destaques */
   var DADOS_PROD = BASE + 'dados/avaliacoes_produtos.json'; /* até 6 por código */
   var BLOCO = 24;
+  /* Avaliações enviadas pelo próprio site: Worker mg-avaliacoes no Cloudflare.
+     Vazio = formulário escondido e nada é lido de lá. */
+  var AVAL_API = 'https://mg-depoimentos.filipefrancasilva10.workers.dev';
 
   var CSS = [
     '.mgav{--az:#3498db;--az2:#2383c4;--mar:#000922;--am:#ffc21a;--cl:#eef6fc;--bd:#dfe6f3;--tx:#1b2333;--ci:#5b6576;font-family:Barlow,system-ui,sans-serif;color:var(--tx)}',
@@ -98,6 +101,33 @@
     '.mgav-prod .mgav-card{padding:16px}',
     '.mgav-prod .mgav-card blockquote{font-size:16px}',
     '.mgav-prod .mgav-lk{display:inline-block;margin-top:12px;font:700 14px "Barlow Condensed",sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--az)!important;text-decoration:none}',
+    /* formulário "Deixe sua avaliação" */
+    '.mgav-dep{font:700 13px "Barlow Condensed",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--az)}',
+    '.mgav-home .mgav-dep{color:#fff}',
+    '.mgav-ic.mg{background:var(--az);color:#fff;font:800 10px Barlow,sans-serif}',
+    '.mgav-abre{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:#fff;color:var(--az)!important;border:0;border-radius:12px;padding:12px 20px;font:800 16px "Barlow Condensed",sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;text-decoration:none!important;transition:transform .15s,box-shadow .15s}',
+    '.mgav-abre:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,9,34,.2)}',
+    '.mgav-abre-fim{display:flex;width:fit-content;margin:28px auto 0;background:#fff;color:var(--az)!important;border:2px solid var(--az);box-shadow:none}',
+    '.mgav-abre-fim+div .mgav-form{margin:18px auto 4px}',
+    '.mgav-abre-fim+div .mgav-obrigado{margin:18px auto 4px}',
+    '.mgav-form{margin:22px 0 4px;background:#fff;border:1px solid var(--bd);border-radius:18px;padding:22px;display:grid;gap:14px;max-width:640px}',
+    '.mgav-form h3{font-size:24px;text-transform:uppercase}',
+    '.mgav-form p{margin:0;font-size:14px;color:var(--ci)}',
+    '.mgav-form label{display:grid;gap:6px;font:600 14px Barlow,sans-serif}',
+    '.mgav-form label i{font-style:normal;font-weight:400;color:var(--ci)}',
+    '.mgav-form textarea,.mgav-form input[type=text]{width:100%;border:2px solid var(--bd);border-radius:12px;padding:12px 14px;font:500 16px Barlow,sans-serif;color:var(--tx);background:#fff;outline:none}',
+    '.mgav-form textarea{min-height:110px;resize:vertical}',
+    '.mgav-form textarea:focus,.mgav-form input[type=text]:focus{border-color:var(--az)}',
+    '.mgav-form .mgav-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}',
+    '.mgav-form .mgav-ck{display:flex;gap:10px;align-items:flex-start;font-weight:400;color:var(--ci)}',
+    '.mgav-form .mgav-ck input{margin-top:3px;width:18px;height:18px;flex-shrink:0}',
+    '.mgav-form .mgav-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}',
+    '.mgav-form .mgav-enviar{justify-self:start;background:var(--az);color:#fff;border:0;border-radius:12px;padding:14px 28px;font:800 17px "Barlow Condensed",sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}',
+    '.mgav-form .mgav-enviar:disabled{opacity:.6;cursor:default}',
+    '.mgav-form .mgav-erro{color:#c0392b;font-size:14px;min-height:1em}',
+    '.mgav-obrigado{margin:22px 0 4px;background:var(--cl);border-radius:18px;padding:22px;max-width:640px;font-size:16px}',
+    '.mgav-obrigado b{display:block;font:800 22px "Barlow Condensed",sans-serif;text-transform:uppercase;color:var(--az);margin-bottom:4px}',
+    '@media (max-width:640px){.mgav-form .mgav-2{grid-template-columns:1fr}.mgav-form{padding:18px}}',
     '@media (max-width:1199px){.mgav-home .mgav-hero{grid-template-columns:1fr}.mgav-home .mgav-num{display:grid;grid-template-columns:auto 1fr;column-gap:24px;align-items:center}.mgav-home .mgav-num>b{grid-row:span 2}.mgav-home .mgav-num .mgav-sub{margin:4px 0 0}.mgav-home .mgav-num .mgav-est{display:none}.mgav-home .mgav-kpis{grid-column:1/-1}}',
     '@media (max-width:991px){.mgav-hero,.mgav-home .mgav-hero{grid-template-columns:1fr;padding:34px 24px}.mgav-grid{grid-template-columns:1fr 1fr}.mgav-hero h1{font-size:42px}}',
     '@media (max-width:640px){.mgav-grid,.mgav-prod .mgav-grid{grid-template-columns:1fr}.mgav-hero,.mgav-home .mgav-hero{padding:28px 18px;border-radius:18px}.mgav-hero h1,.mgav-home .mgav-hero h2{font-size:34px}.mgav-num>b,.mgav-home .mgav-num>b{font-size:68px}.mgav-cab{flex-direction:column;align-items:flex-start}.mgav-home{padding:0 14px}.mgav-kpis strong{font-size:24px}}'
@@ -129,25 +159,25 @@
   function css() { if (document.getElementById('mgav-css')) return; var s = document.createElement('style'); s.id = 'mgav-css'; s.textContent = CSS; document.head.appendChild(s); }
 
   function cartao(a) {
-    var ig = a.origem === 'Instagram';
+    var ig = a.origem === 'Instagram', site = a.origem === 'Site MG';
     var peca = '';
     if (a.codigo) {
       peca = '<a class="mgav-peca" href="' + esc(a.url_produto || ('/produtos/' + cods(a)[0].toLowerCase() + '/')) + '"><span><strong>' + esc(a.codigo) + '</strong>' + esc(a.peca) + (a.carro ? ' · ' + esc(a.carro) : '') + '</span><u>Ver peça →</u></a>';
     } else if (a.peca) {
       peca = '<div class="mgav-peca"><span>' + esc(a.peca) + '</span></div>';
     }
-    var quem = ig
+    var quem = site ? '<b>' + esc(a.autor || 'Cliente') + '</b> · Site MG' : ig
       ? (a.link_post ? '<a href="' + esc(a.link_post) + '" target="_blank" rel="noopener">' + esc(a.autor) + '</a>' : '<b>' + esc(a.autor) + '</b>') + ' · Instagram'
       : '<b>Comprador</b> · Mercado Livre';
-    return '<article class="mgav-card"><div class="mgav-topo">' + estrelas(a.estrelas) + '<span class="mgav-data">' + esc(a.data) + '</span></div>' +
+    return '<article class="mgav-card"><div class="mgav-topo">' + (site ? '<span class="mgav-dep">Depoimento</span>' : estrelas(a.estrelas)) + '<span class="mgav-data">' + esc(a.data) + '</span></div>' +
       '<blockquote>“' + esc(a.texto) + '”</blockquote>' + peca +
-      '<div class="mgav-orig"><span class="mgav-ic ' + (ig ? 'ig">' + IC_IG : 'ml">' + IC_ML) + '</span><span>' + quem + '</span></div></article>';
+      '<div class="mgav-orig"><span class="mgav-ic ' + (site ? 'mg">MG' : ig ? 'ig">' + IC_IG : 'ml">' + IC_ML) + '</span><span>' + quem + '</span></div></article>';
   }
 
   function resumo(L) {
-    var soma = 0, cs = {}, ml = 0, ig = 0;
-    L.forEach(function (a) { soma += a.estrelas || 5; cods(a).forEach(function (c) { cs[c] = 1; }); if (a.origem === 'Instagram') ig++; else ml++; });
-    return { total: L.length, media: L.length ? soma / L.length : 0, codigos: Object.keys(cs).length, ml: ml, ig: ig };
+    var soma = 0, ne = 0, cs = {}, ml = 0, ig = 0, st = 0;
+    L.forEach(function (a) { if (a.origem !== 'Site MG') { soma += a.estrelas || 5; ne++; } cods(a).forEach(function (c) { cs[c] = 1; }); if (a.origem === 'Instagram') ig++; else if (a.origem === 'Site MG') st++; else ml++; });
+    return { total: L.length, media: ne ? soma / ne : 0, codigos: Object.keys(cs).length, ml: ml, ig: ig, site: st };
   }
   function fmt(n) { return n.toFixed(1).replace('.', ','); }
   function mil(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
@@ -163,8 +193,64 @@
     });
     io.observe(el);
   }
+  /* Mercado Livre e Instagram sempre na frente (compra/uso confirmado); depoimentos do site depois */
   function ordena(L) {
-    return L.slice().sort(function (a, b) { return (chaveData(b.data) - chaveData(a.data)) || ((b.texto || '').length - (a.texto || '').length); });
+    return L.slice().sort(function (a, b) { return ((a.origem === 'Site MG') - (b.origem === 'Site MG')) || (chaveData(b.data) - chaveData(a.data)) || ((b.texto || '').length - (a.texto || '').length); });
+  }
+
+  /* ---------- formulário "Deixe seu depoimento" ----------
+     Nada aparece no site na hora: o envio vai para uma fila que o Filipe aprova.
+     A resposta ao cliente é a mesma em qualquer caso. */
+  function formulario(onde, codigo) {
+    var box = document.createElement('div');
+    box.innerHTML = '<form class="mgav-form" novalidate><h3>Deixe seu depoimento</h3>' +
+      '<p>Conte como foi com a peça MG. Seu depoimento passa por uma revisão antes de aparecer no site.</p>' +
+      '<label>Seu depoimento<textarea name="texto" maxlength="600" required placeholder="Ex.: encaixou certinho no meu carro, acabamento muito bom."></textarea></label>' +
+      '<div class="mgav-2"><label><span>Seu primeiro nome <i>(opcional)</i></span><input type="text" name="nome" maxlength="40" autocomplete="given-name"></label>' +
+      '<label><span>Código da peça <i>(se souber)</i></span><input type="text" name="codigo" maxlength="16" placeholder="Ex.: MG091" value="' + esc(codigo || '') + '"></label></div>' +
+      '<label class="mgav-hp" aria-hidden="true">Site<input type="text" name="site" tabindex="-1" autocomplete="off"></label>' +
+      '<label class="mgav-ck"><input type="checkbox" name="autorizo"> Autorizo a MG a publicar meu comentário com meu primeiro nome no site.</label>' +
+      '<div class="mgav-erro" role="alert"></div><button class="mgav-enviar" type="submit">Enviar depoimento</button></form>';
+    var f = box.firstChild, erro = f.querySelector('.mgav-erro');
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var tx = f.texto.value.trim();
+      if (tx.length < 4) { erro.textContent = 'Escreva seu depoimento sobre a peça.'; return; }
+      if (!f.autorizo.checked) { erro.textContent = 'Marque a autorização para enviarmos seu depoimento.'; return; }
+      erro.textContent = '';
+      var bt = f.querySelector('.mgav-enviar'); bt.disabled = true; bt.textContent = 'Enviando…';
+      fetch(AVAL_API + '/enviar', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ texto: tx, nome: f.nome.value, codigo: f.codigo.value, autorizo: true, site: f.site.value, pagina: location.pathname })
+      }).then(function (r) {
+        if (r.status === 429) throw 'Você já enviou alguns depoimentos agora. Tente de novo mais tarde.';
+        if (!r.ok) throw 'Não foi possível enviar agora. Tente de novo em instantes.';
+        box.innerHTML = '<div class="mgav-obrigado"><b>Obrigado pelo depoimento!</b>Recebemos sua mensagem. Ela passa por uma revisão antes de aparecer no site.</div>';
+      }).catch(function (m) { erro.textContent = typeof m === 'string' ? m : 'Não foi possível enviar agora. Tente de novo em instantes.'; bt.disabled = false; bt.textContent = 'Enviar depoimento'; });
+    });
+    onde.insertAdjacentElement('afterend', box);
+    f.texto.focus();
+    return box;
+  }
+  /* botão que abre o formulário logo abaixo de "depois" (uma vez só) */
+  function botaoAvaliar(classe, texto, depois, codigo) {
+    if (!AVAL_API) return null;
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'mgav-abre ' + (classe || ''); b.textContent = texto;
+    var aberto = null;
+    b.addEventListener('click', function () {
+      if (aberto) { aberto.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+      aberto = formulario(depois(), codigo);
+    });
+    return b;
+  }
+  /* depoimentos aprovados pelo Filipe no painel (sem estrelas; não entram na nota média) */
+  function doSite() {
+    if (!AVAL_API) return Promise.resolve([]);
+    return fetch(AVAL_API + '/publicas').then(function (r) { return r.ok ? r.json() : []; }).then(function (L) {
+      return (Array.isArray(L) ? L : []).filter(function (a) { return a && typeof a.texto === 'string' && a.texto; })
+        .map(function (a) { return { codigo: a.codigo, texto: a.texto, autor: a.autor, data: a.data, origem: 'Site MG' }; });
+    }).catch(function () { return []; });
   }
 
   /* ---------- página /avaliacoes/ ---------- */
@@ -182,10 +268,13 @@
       '<div class="mgav-kpis"><div><strong>' + fmt(R.media) + ' ★</strong>média de 5</div><div><strong>' + R.codigos + '</strong>códigos avaliados</div><div><strong>' + mil(R.ml) + ' + ' + R.ig + '</strong>Mercado Livre + Instagram</div></div></div></section>' +
       '<div class="mgav-barra"><label class="mgav-busca">' + IC_LUPA + '<input type="search" placeholder="Buscar por código (ex.: MG091), peça ou carro" aria-label="Buscar avaliações"></label>' +
       '<div class="mgav-chips" data-f="l"><em>Linha</em><button class="mgav-chip on" data-v="">Todas</button>' + nomesL.map(function (n) { return '<button class="mgav-chip" data-v="' + esc(n) + '">' + esc(n) + '<i>' + mil(linhas[n]) + '</i></button>'; }).join('') + '</div>' +
-      '<div class="mgav-chips" data-f="o"><em>Origem</em><button class="mgav-chip on" data-v="">Todas</button><button class="mgav-chip" data-v="Mercado Livre">Mercado Livre<i>' + mil(R.ml) + '</i></button><button class="mgav-chip" data-v="Instagram">Instagram<i>' + R.ig + '</i></button></div></div>' +
+      '<div class="mgav-chips" data-f="o"><em>Origem</em><button class="mgav-chip on" data-v="">Todas</button><button class="mgav-chip" data-v="Mercado Livre">Mercado Livre<i>' + mil(R.ml) + '</i></button><button class="mgav-chip" data-v="Instagram">Instagram<i>' + R.ig + '</i></button>' + (R.site ? '<button class="mgav-chip" data-v="Site MG">Depoimentos<i>' + mil(R.site) + '</i></button>' : '') + '</div></div>' +
       '<p class="mgav-info"></p><div class="mgav-grid"></div><button class="mgav-mais" type="button">Ver mais avaliações</button>' +
-      '<p class="mgav-nota">Avaliações do Mercado Livre exibidas sem o nome do comprador. Atualizamos esta página periodicamente.</p>';
+      '<p class="mgav-nota">Avaliações do Mercado Livre exibidas sem o nome do comprador.' + (R.site ? ' Depoimentos enviados pelo site são revisados antes de aparecer aqui.' : '') + ' Atualizamos esta página periodicamente.</p>';
     conta(box.querySelector('.mgav-num b'), R.total);
+    /* depoimento: só um botão discreto depois das avaliações; o formulário abre ao clicar */
+    var ba = botaoAvaliar('mgav-abre-fim', 'Deixar um depoimento', function () { return ba; }, '');
+    if (ba) box.querySelector('.mgav-nota').insertAdjacentElement('beforebegin', ba);
     var f = { l: '', o: '', q: '' }, vis = BLOCO, grid = box.querySelector('.mgav-grid'), mais = box.querySelector('.mgav-mais'), info = box.querySelector('.mgav-info');
     function filtra() {
       var q = norm(f.q).trim(), qc = cod(f.q);
@@ -202,7 +291,7 @@
     function desenha() {
       var F = filtra();
       grid.innerHTML = F.length ? F.slice(0, vis).map(cartao).join('') : '<div class="mgav-vazio" style="grid-column:1/-1">Ainda não temos avaliações para essa busca. Novas avaliações entram aqui com frequência.</div>';
-      info.textContent = mil(F.length) + (F.length === 1 ? ' avaliação' : ' avaliações') + (f.l || f.o || f.q ? ' encontradas' : '') + (F.length > vis ? ' · mostrando ' + mil(vis) : '');
+      info.textContent = mil(F.length) + (F.length === 1 ? ' avaliação' : ' avaliações') + (f.l || f.o || f.q ? (F.length === 1 ? ' encontrada' : ' encontradas') : '') + (F.length > vis ? ' · mostrando ' + mil(vis) : '');
       mais.style.display = F.length > vis ? '' : 'none';
     }
     box.querySelectorAll('.mgav-chips').forEach(function (g) {
@@ -277,8 +366,8 @@
     if (!pg && !hm && !pr) return;
     css();
     function pega(u) { return fetch(u).then(function (r) { if (!r.ok) throw r.status; return r.json(); }); }
-    if (pg) pega(DADOS).then(function (L) {
-      pagina(pg, (L || []).filter(function (a) { return a && a.texto && (a.estrelas || 5) >= 4; }));
+    if (pg) Promise.all([pega(DADOS), doSite()]).then(function (r) {
+      pagina(pg, (r[0] || []).concat(r[1]).filter(function (a) { return a && a.texto && (a.estrelas || 5) >= 4; }));
     }).catch(function () {});
     /* home: arquivo pequeno, só quando a seção chega perto da tela */
     if (hm) perto(hm, function () { pega(DADOS_HOME).then(function (H) { home(hm, H); }).catch(function () { hm.style.display = 'none'; }); });
