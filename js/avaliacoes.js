@@ -208,6 +208,7 @@
       '<label>Seu depoimento<textarea name="texto" maxlength="600" required placeholder="Ex.: encaixou certinho no meu carro, acabamento muito bom."></textarea></label>' +
       '<div class="mgav-2"><label><span>Seu primeiro nome <i>(opcional)</i></span><input type="text" name="nome" maxlength="40" autocomplete="given-name"></label>' +
       '<label><span>Código da peça <i>(se souber)</i></span><input type="text" name="codigo" maxlength="16" placeholder="Ex.: MG091" value="' + esc(codigo || '') + '"></label></div>' +
+      '<label><span>Seu e-mail <i>(não aparece no site)</i></span><input type="email" name="email" maxlength="120" autocomplete="email" required inputmode="email"></label>' +
       '<label class="mgav-hp" aria-hidden="true">Site<input type="text" name="site" tabindex="-1" autocomplete="off"></label>' +
       '<label class="mgav-ck"><input type="checkbox" name="autorizo"> Autorizo a MG a publicar meu comentário com meu primeiro nome no site.</label>' +
       '<div class="mgav-erro" role="alert"></div><button class="mgav-enviar" type="submit">Enviar depoimento</button></form>';
@@ -216,14 +217,17 @@
       e.preventDefault();
       var tx = f.texto.value.trim();
       if (tx.length < 4) { erro.textContent = 'Escreva seu depoimento sobre a peça.'; return; }
+      var em = f.email.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(em)) { erro.textContent = 'Informe um e-mail válido. Ele não aparece no site.'; return; }
       if (!f.autorizo.checked) { erro.textContent = 'Marque a autorização para enviarmos seu depoimento.'; return; }
       erro.textContent = '';
       var bt = f.querySelector('.mgav-enviar'); bt.disabled = true; bt.textContent = 'Enviando…';
       fetch(AVAL_API + '/enviar', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ texto: tx, nome: f.nome.value, codigo: f.codigo.value, autorizo: true, site: f.site.value, pagina: location.pathname })
+        body: JSON.stringify({ texto: tx, nome: f.nome.value, email: em, codigo: f.codigo.value, autorizo: true, site: f.site.value, pagina: location.pathname })
       }).then(function (r) {
         if (r.status === 429) throw 'Você já enviou alguns depoimentos agora. Tente de novo mais tarde.';
+        if (r.status === 422) return r.json().then(function (j) { throw j.erro === 'email' ? 'Esse e-mail não parece válido. Confira e tente de novo.' : 'Confira os campos e tente de novo.'; });
         if (!r.ok) throw 'Não foi possível enviar agora. Tente de novo em instantes.';
         box.innerHTML = '<div class="mgav-obrigado"><b>Obrigado pelo depoimento!</b>Recebemos sua mensagem. Ela passa por uma revisão antes de aparecer no site.</div>';
       }).catch(function (m) { erro.textContent = typeof m === 'string' ? m : 'Não foi possível enviar agora. Tente de novo em instantes.'; bt.disabled = false; bt.textContent = 'Enviar depoimento'; });
