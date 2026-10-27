@@ -13,7 +13,7 @@
   var VER = 'c1a7ec4622eccc27737edb123c312625d5d34733';
   var DADOS_PROD = 'https://cdn.jsdelivr.net/gh/filipefrancas/mg-site-arquivos@' + VER + '/dados/avaliacoes_produtos.json';
   /* AVAL = põe a nota das avaliações (Mercado Livre) no JSON-LD do produto. Ver LEIA-ME antes de ligar. */
-  var AVAL = true;
+  var AVAL = false; /* Filipe 27/10: sem estrelas do ML para o Google (no site as avaliações continuam) */
   var MARCA = { '@type': 'Brand', name: 'MG Peças Automotivas' };
   var COD = /\bMG-?[A-Z]?\d+[A-Z]?\b/i;
 
