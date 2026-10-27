@@ -1,0 +1,356 @@
+{
+ "home_pc": {
+  "elementos": 2047,
+  "diferencas": 18,
+  "extraAntes": {
+   "imports": [
+    null,
+    null
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 4988,
+   "sw": 1366
+  },
+  "extraDepois": {
+   "imports": [
+    null,
+    null,
+    "mg-tema-paginas.css"
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 4988,
+   "sw": 1366
+  },
+  "dif": [
+   "48 UL.js-nav-desktop-list.nav-desktop-list.list-unstyled :: scrollbar-width=auto > none",
+   "49 LI.nav-item.nav-main-item :: flex-shrink=1 > 0",
+   "51 LI.nav-item.nav-main-item.nav-dropdown :: flex-shrink=1 > 0",
+   "411 LI.nav-item.nav-main-item :: flex-shrink=1 > 0",
+   "413 LI.nav-item.nav-main-item :: flex-shrink=1 > 0",
+   "415 LI.nav-item.nav-main-item :: flex-shrink=1 > 0",
+   "417 LI.nav-item.nav-main-item :: flex-shrink=1 > 0",
+   "419 LI.nav-item.nav-main-item :: flex-shrink=1 > 0",
+   "421 LI.nav-item.nav-main-item :: flex-shrink=1 > 0",
+   "423 LI.nav-item.nav-main-item :: flex-shrink=1 > 0",
+   "425 BUTTON.js-nav-desktop-list-arrow.js-nav-desktop-list-arrow-right.nav-d :: cursor=auto > pointer",
+   "426 svg :: cursor=auto > pointer | opacity=0.5 > 1",
+   "557 DIV.placeholder.placeholder-fade :: opacity=0.214237 > 0.36217",
+   "570 DIV.placeholder.placeholder-fade :: opacity=0.407617 > 0.448381",
+   "577 DIV.placeholder.placeholder-fade :: opacity=0.407617 > 0.448381",
+   "584 DIV.placeholder.placeholder-fade :: opacity=0.407617 > 0.448381",
+   "591 DIV.placeholder.placeholder-fade :: opacity=0.407617 > 0.448381",
+   "1822 tag STYLE#mg-polimento x LINK#mg-polimento"
+  ]
+ },
+ "home_celular": {
+  "elementos": 1842,
+  "diferencas": 6,
+  "extraAntes": {
+   "imports": [
+    null,
+    null
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 7379,
+   "sw": 390
+  },
+  "extraDepois": {
+   "imports": [
+    null,
+    null,
+    "mg-tema-paginas.css"
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 7379,
+   "sw": 390
+  },
+  "dif": [
+   "557 DIV.placeholder.placeholder-fade :: opacity=0.271888 > 0.425416",
+   "570 DIV.placeholder.placeholder-fade :: opacity=0.44324 > 0.489006",
+   "577 DIV.placeholder.placeholder-fade :: opacity=0.44324 > 0.489006",
+   "584 DIV.placeholder.placeholder-fade :: opacity=0.44324 > 0.489006",
+   "591 DIV.placeholder.placeholder-fade :: opacity=0.44324 > 0.489006",
+   "1617 tag STYLE#mg-polimento x LINK#mg-polimento"
+  ]
+ },
+ "catalogo_pc": {
+  "elementos": 1044,
+  "diferencas": 2,
+  "extraAntes": {
+   "imports": [
+    null
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 2237,
+   "sw": 1366
+  },
+  "extraDepois": {
+   "imports": [
+    null,
+    "mg-tema-paginas.css"
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 2237,
+   "sw": 1366
+  },
+  "dif": [
+   "443 tag DIV#nav-panel-id-115779196.js-modal-private.modal.modal-right x DIV#nav-panel-id-933838120.js-modal-private.modal.modal-right",
+   "819 tag STYLE#mg-polimento x LINK#mg-polimento"
+  ]
+ },
+ "catalogo_celular": {
+  "elementos": 1044,
+  "diferencas": 2,
+  "extraAntes": {
+   "imports": [
+    null
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 4490,
+   "sw": 390
+  },
+  "extraDepois": {
+   "imports": [
+    null,
+    "mg-tema-paginas.css"
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 4490,
+   "sw": 390
+  },
+  "dif": [
+   "443 tag DIV#nav-panel-id-1771690997.js-modal-private.modal.modal-right x DIV#nav-panel-id-1950734698.js-modal-private.modal.modal-right",
+   "819 tag STYLE#mg-polimento x LINK#mg-polimento"
+  ]
+ },
+ "produtos_pc": {
+  "elementos": 1514,
+  "diferencas": 2,
+  "extraAntes": {
+   "imports": [],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 1311,
+   "sw": 1366
+  },
+  "extraDepois": {
+   "imports": [
+    "mg-tema-paginas.css"
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 1311,
+   "sw": 1366
+  },
+  "dif": [
+   "565 DIV.container :: margin-inline-end=113px > 0px | margin-inline-start=113px > 0px | margin-left=113px > 0px | margin-right=113px > 0px",
+   "1289 tag STYLE#mg-polimento x LINK#mg-polimento"
+  ]
+ },
+ "produtos_celular": {
+  "elementos": 1518,
+  "diferencas": 2,
+  "extraAntes": {
+   "imports": [],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 2242,
+   "sw": 390
+  },
+  "extraDepois": {
+   "imports": [
+    "mg-tema-paginas.css"
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 2242,
+   "sw": 390
+  },
+  "dif": [
+   "566 DIV.js-category-controls.category-controls.grid-no-gap :: inset-block-start=156px > 155px | top=156px > 155px",
+   "1293 tag STYLE#mg-polimento x LINK#mg-polimento"
+  ]
+ },
+ "quem-somos_pc": {
+  "elementos": 927,
+  "diferencas": 2,
+  "extraAntes": {
+   "imports": [],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 3933,
+   "sw": 1366
+  },
+  "extraDepois": {
+   "imports": [
+    "mg-tema-paginas.css"
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 3933,
+   "sw": 1366
+  },
+  "dif": [
+   "443 tag DIV#nav-panel-id-1866986541.js-modal-private.modal.modal-right x DIV#nav-panel-id-663819549.js-modal-private.modal.modal-right",
+   "702 tag STYLE#mg-polimento x LINK#mg-polimento"
+  ]
+ },
+ "quem-somos_celular": {
+  "elementos": 927,
+  "diferencas": 2,
+  "extraAntes": {
+   "imports": [],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 3024,
+   "sw": 390
+  },
+  "extraDepois": {
+   "imports": [
+    "mg-tema-paginas.css"
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 3024,
+   "sw": 390
+  },
+  "dif": [
+   "443 tag DIV#nav-panel-id-1365966006.js-modal-private.modal.modal-right x DIV#nav-panel-id-1376432186.js-modal-private.modal.modal-right",
+   "702 tag STYLE#mg-polimento x LINK#mg-polimento"
+  ]
+ },
+ "busca-placa_pc": {
+  "elementos": 974,
+  "diferencas": 2,
+  "extraAntes": {
+   "imports": [
+    null
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 900,
+   "sw": 1366
+  },
+  "extraDepois": {
+   "imports": [
+    null,
+    "mg-tema-paginas.css"
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 900,
+   "sw": 1366
+  },
+  "dif": [
+   "443 tag DIV#nav-panel-id-383845802.js-modal-private.modal.modal-right x DIV#nav-panel-id-1432096223.js-modal-private.modal.modal-right",
+   "748 tag STYLE#mg-polimento x LINK#mg-polimento"
+  ]
+ },
+ "busca-placa_celular": {
+  "elementos": 974,
+  "diferencas": 2,
+  "extraAntes": {
+   "imports": [
+    null
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 1339,
+   "sw": 390
+  },
+  "extraDepois": {
+   "imports": [
+    null,
+    "mg-tema-paginas.css"
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 1339,
+   "sw": 390
+  },
+  "dif": [
+   "443 tag DIV#nav-panel-id-1847607837.js-modal-private.modal.modal-right x DIV#nav-panel-id-1672382349.js-modal-private.modal.modal-right",
+   "748 tag STYLE#mg-polimento x LINK#mg-polimento"
+  ]
+ },
+ "avaliacoes_pc": {
+  "elementos": 1288,
+  "diferencas": 2,
+  "extraAntes": {
+   "imports": [],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 3619,
+   "sw": 1366
+  },
+  "extraDepois": {
+   "imports": [
+    "mg-tema-paginas.css"
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 3619,
+   "sw": 1366
+  },
+  "dif": [
+   "443 tag DIV#nav-panel-id-618285047.js-modal-private.modal.modal-right x DIV#nav-panel-id-1001064979.js-modal-private.modal.modal-right",
+   "1063 tag STYLE#mg-polimento x LINK#mg-polimento"
+  ]
+ },
+ "avaliacoes_celular": {
+  "elementos": 1288,
+  "diferencas": 2,
+  "extraAntes": {
+   "imports": [],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 8500,
+   "sw": 390
+  },
+  "extraDepois": {
+   "imports": [
+    "mg-tema-paginas.css"
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 8500,
+   "sw": 390
+  },
+  "dif": [
+   "443 tag DIV#nav-panel-id-1163556062.js-modal-private.modal.modal-right x DIV#nav-panel-id-1261241125.js-modal-private.modal.modal-right",
+   "1063 tag STYLE#mg-polimento x LINK#mg-polimento"
+  ]
+ },
+ "produto_pc": {
+  "elementos": 1322,
+  "diferencas": 1,
+  "extraAntes": {
+   "imports": [
+    null
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 2432,
+   "sw": 1366
+  },
+  "extraDepois": {
+   "imports": [
+    null,
+    "mg-tema-paginas.css"
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 2432,
+   "sw": 1366
+  },
+  "dif": [
+   "1097 tag STYLE#mg-polimento x LINK#mg-polimento"
+  ]
+ },
+ "produto_celular": {
+  "elementos": 1322,
+  "diferencas": 1,
+  "extraAntes": {
+   "imports": [
+    null
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 3260,
+   "sw": 390
+  },
+  "extraDepois": {
+   "imports": [
+    null,
+    "mg-tema-paginas.css"
+   ],
+   "customImports": "SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules",
+   "h": 3260,
+   "sw": 390
+  },
+  "dif": [
+   "1097 tag STYLE#mg-polimento x LINK#mg-polimento"
+  ]
+ }
+}
