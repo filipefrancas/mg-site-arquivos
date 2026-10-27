@@ -1,0 +1,123 @@
+<script>
+/* MG: catálogo sem preço - tira "ordenar por preço" e troca "Mais vendidos" */
+(function () {
+  function limpa() {
+    document.querySelectorAll('.js-sort-by-private option, .js-sort-by option').forEach(function (o) {
+      if (/^price/.test(o.value)) o.remove();
+      else if (o.value === 'best-selling') o.text = 'Mais procurados';
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', limpa); else limpa();
+})();
+</script>
+<script>
+/* MG: miniaturas das linhas no menu Produtos + "Ver todas as linhas" */
+(function () {
+  var M = 'https://dcdn-us.mitiendanube.com/stores/004/166/624/';
+  var F = {
+    'mangueira-filtro-de-ar': 'products/mg238-55bee206e4a6531d0617588093565450-640-0.webp',
+    'mangueira-radiador': 'products/mg4170-37d3a4f09ad51734ff17588283605628-640-0.webp',
+    'reservatorios': 'media/7553e34e-03-reservatorios/webp/640.webp',
+    'tampas-comando-de-valvulas': 'products/mg3231-5c99d747fdb9e8573417224478822072-640-0.webp',
+    'coifas': 'media/ff4972a5-05-coifas/webp/640.webp',
+    'metal-borracha': 'media/d500f4aa-06-coxins-metal-borracha/webp/640.webp',
+    'suspensao': 'media/8591d4f1-07-suspensao/webp/640.webp',
+    'pecas-plasticas': 'products/mg608-8d69946d28654f0a6917180383260184-640-0.webp',
+    'man-direcao-hidraulica': 'media/5a15ad5c-09-direcao-hidraulica/webp/640.webp',
+    'pesado': 'media/58914a37-10-linha-pesada/webp/640.webp',
+    'bomba-dagua': 'products/mg1789-164b8dabe515db40b317182884900176-640-0.webp',
+    'diversos': 'products/689f480bcfdcded6e4fc12a2d6338d74-fc5f324657d7adcf2017920888215665-640-0.webp',
+    'respiro-e-rabichos': 'products/01d2c69e4634fa04bf621431103df093-d598c5978eed78683a17920889979449-640-0.webp',
+    'vans': 'products/mg1889-7c18ba50d30d3c295717302905017512-640-0.webp',
+    'tampas-de-reservatorio': 'products/a45b6cdf8820a27f60ad26919bb5c2d9-c1154a71980dc5f88217920890587511-640-0.webp'
+  };
+  function monta() {
+    var lista = document.querySelector('.nav-desktop .desktop-list-subitems');
+    if (!lista || lista.getAttribute('data-mg')) return;
+    lista.setAttribute('data-mg', '1');
+    lista.querySelectorAll(':scope > li > .nav-list-link').forEach(function (a) {
+      var slug = (a.getAttribute('href') || '').replace(/^https?:\/\/[^/]+/, '').replace(/\//g, '');
+      var nome = a.textContent.trim();
+      var ico = document.createElement('span');
+      ico.className = 'mg-nav-ico';
+      ico.innerHTML = F[slug] ? '<img src="' + M + F[slug] + '" alt="" loading="lazy">' : '<b>' + nome.charAt(0) + '</b>';
+      a.insertBefore(ico, a.firstChild);
+    });
+    var li = document.createElement('li');
+    li.className = 'nav-item mg-nav-todas';
+    li.innerHTML = '<a class="nav-list-link" href="/produtos/">Ver todas as linhas →</a>';
+    lista.appendChild(li);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', monta); else monta();
+})();
+</script>
+<script>
+/* MG: no celular, cada linha do menu Produtos vira link direto (sem abrir as montadoras) */
+(function () {
+  function simplifica() {
+    document.querySelectorAll('.item-with-subitems > button.js-modal-open-private').forEach(function (bt) {
+      if (/^produtos$/i.test(bt.textContent.trim())) return;
+      var sub = document.querySelector(bt.getAttribute('data-target'));
+      var ver = sub && sub.querySelector('.modal-body > .nav-item > a.nav-list-link');
+      if (!ver) return;
+      var a = document.createElement('a');
+      a.className = 'nav-list-link';
+      a.href = ver.getAttribute('href');
+      a.textContent = bt.textContent.trim();
+      var it = bt.parentElement;
+      it.classList.remove('item-with-subitems');
+      bt.replaceWith(a);
+      if (sub.parentElement === it) sub.remove();
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', simplifica); else simplifica();
+})();
+</script>
+<script>
+/* link discreto da Política de Privacidade no rodapé (exigido pela sincronização do Instagram) */
+(function () {
+  function poe() {
+    var c = document.querySelector('.footer-copyright');
+    if (!c || c.querySelector('.mg-pp')) return;
+    c.insertAdjacentHTML('beforeend', ' <span class="mg-pp-sep">·</span> <a class="mg-pp" href="/politica-de-privacidade/">Política de Privacidade</a>');
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', poe); else poe();
+})();
+</script>
+<style>
+.footer-copyright .mg-pp { color: inherit !important; opacity: .8; font-size: 12px; text-decoration: underline; text-underline-offset: 2px; }
+.footer-copyright .mg-pp:hover { opacity: 1; }
+.footer-copyright .mg-pp-sep { opacity: .6; margin: 0 4px; }
+</style>
+<script>
+/* rodapé compacto (2026-10-23): uma faixa com logo, links e redes; embaixo uma linha de dados */
+(function () {
+  function monta() {
+    var fc = document.querySelector('#ns-section-footer .footer-content');
+    if (!fc || fc.querySelector('.mgf')) return;
+    var logo = document.querySelector('header .logo-img');
+    var ig = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"/></svg>';
+    var fb = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.5 1.6-1.5h1.7V4.4c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1v2.4H7.7V14h2.7v8h3.1z"/></svg>';
+    var tt = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.6 3c.4 2.2 1.7 3.6 3.9 3.8v3.1c-1.4.1-2.7-.3-3.9-1v6.3c0 3.6-2.9 5.8-6 5.8-3.2 0-5.6-2.5-5.6-5.6 0-3.3 2.8-5.9 6.4-5.5v3.2c-1.6-.4-3.2.6-3.2 2.3 0 1.3 1 2.4 2.4 2.4 1.5 0 2.6-1 2.6-2.9V3h3.4z"/></svg>';
+    var links = [['Início', '/'], ['Produtos', '/produtos/'], ['Catálogo', '/catalogo/'], ['Representantes', '/representantes/'], ['Fale conosco', '/contato/'], ['Quem somos', '/quem-somos/'], ['Eventos', '/eventos/']];
+    var el = document.createElement('div');
+    el.className = 'mgf';
+    el.innerHTML =
+      '<div class="mgf-faixa">' +
+        '<a class="mgf-logo" href="/" aria-label="MG Peças Automotivas">' + (logo ? '<img src="' + logo.getAttribute('src') + '" alt="MG Peças Automotivas">' : 'MG Peças Automotivas') + '</a>' +
+        '<nav class="mgf-links">' + links.map(function (l) { return '<a href="' + l[1] + '"' + (/^https/.test(l[1]) ? ' target="_blank" rel="noopener"' : '') + '>' + l[0] + '</a>'; }).join('') + '</nav>' +
+        '<div class="mgf-redes">' +
+          '<a href="https://instagram.com/mg_pecas_automotivas" target="_blank" rel="noopener" aria-label="Instagram">' + ig + '</a>' +
+          '<a href="https://www.facebook.com/www.mgpecasautomotivas" target="_blank" rel="noopener" aria-label="Facebook">' + fb + '</a>' +
+          '<a href="https://www.tiktok.com/@mg_pecas_automotivas" target="_blank" rel="noopener" aria-label="TikTok">' + tt + '</a>' +
+        '</div>' +
+      '</div>' +
+      '<p class="mgf-dados"><span>(11) 4049-5817</span><span>Av. Casa Grande, 1534, Galpão B, Diadema-SP</span><span>© 2026 MG Mangueiras Ltda.</span><a href="/politica-de-privacidade/">Política de Privacidade</a></p>';
+    fc.insertBefore(el, fc.firstChild);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', monta); else monta();
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/gh/filipefrancas/mg-site-arquivos@main/js/busca.js?v=20261025" defer></script>
+
+<link rel="stylesheet" id="mg-polimento" href="https://cdn.jsdelivr.net/gh/filipefrancas/mg-site-arquivos@0b92ece/css/mg-tema-paginas.css">
