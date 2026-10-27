@@ -1,48 +1,94 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/filipefrancas/mg-site-arquivos@main/catalogo/catalogo.css">
-<div class="mgcat" id="mg-catalogo">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/filipefrancas/mg-site-arquivos@main/catalogo/catalogo-v2.css">
+<div class="mgcat" id="mg-catalogo" data-mgcat-api="https://mg-catalogo.filipefrancasilva10.workers.dev">
   <section class="mgcat-hero">
-    <div>
+    <div class="mgcat-hero-tx">
       <p class="mgcat-k">Catálogo MG · edição 2025/2026</p>
       <h1>O catálogo completo da MG, direto da fábrica</h1>
-      <p class="mgcat-lead">Mais de 2.200 códigos com foto, aplicação por veículo, ano e motor. Baixe o PDF para consultar no celular ou no computador, ou pesquise aqui no site pela placa, pelo veículo ou pelo código.</p>
-      <div class="mgcat-cta">
-        <a class="mgcat-btn" id="mgcat-pdf" href="https://filescloud3.ideia2001.com.br/CatExp/PDF/418-MG-Mangueiras.pdf" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 19h16"/></svg>
-          Baixar catálogo em PDF
+      <p class="mgcat-lead">Mais de 2.200 códigos com foto, aplicação por veículo, ano e motor. Instale no computador do balcão ou leve o PDF no celular.</p>
+
+      <div class="mgcat-dl">
+        <a class="mgcat-dl-item mgcat-dl-win" id="mgcat-exe" data-mgcat-baixar="windows" href="https://filescloud3.ideia2001.com.br/CatExp/AOAAH/InstalarCatalogoMgPecasAutomotivas.exe" rel="noopener">
+          <span class="mgcat-dl-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 5.1 10.4 4v7.2H3V5.1Zm0 13.8 7.4 1.1v-7.1H3v6Zm8.3 1.2L21 21.5v-8.6h-9.7v7.2Zm0-16.2v7.3H21V2.5l-9.7 1.4Z"/></svg></span>
+          <span class="mgcat-dl-tx"><b>Baixar para Windows</b><small>40 MB · funciona sem internet</small></span>
+          <span class="mgcat-dl-tag">Mais usado</span>
         </a>
-        <a class="mgcat-btn sec" href="/busca-por-veiculo/">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          Buscar pela placa ou veículo
+        <a class="mgcat-dl-item mgcat-dl-pdf" id="mgcat-pdf" data-mgcat-baixar="pdf" href="https://filescloud3.ideia2001.com.br/CatExp/PDF/418-MG-Mangueiras.pdf" target="_blank" rel="noopener">
+          <span class="mgcat-dl-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 11v6"/><path d="m9.5 14.5 2.5 2.5 2.5-2.5"/></svg></span>
+          <span class="mgcat-dl-tx"><b>Baixar em PDF</b><small>108 MB · celular e impressão</small></span>
         </a>
       </div>
-      <ul class="mgcat-meta">
-        <li><b>+2.200</b> códigos</li>
-        <li><b>Fábrica própria</b> em Diadema-SP</li>
-        <li><b>Lançamentos</b> todo mês</li>
-        <li><b>PDF</b> para celular, computador e impressão</li>
-      </ul>
-      <p class="mgcat-extra">Prefere instalar no computador? <a id="mgcat-exe" href="https://filescloud3.ideia2001.com.br/CatExp/AOAAH/InstalarCatalogoMgPecasAutomotivas.exe" rel="noopener">Baixar o catálogo para Windows</a> (instalador, consulta sem internet).</p>
+
+      <p class="mgcat-cont">
+        <span class="mgcat-cont-pulso" aria-hidden="true"></span>
+        <b class="mgcat-cont-n" data-mgcat-contador>+37 mil</b>
+        <span class="mgcat-cont-tx">downloads do catálogo MG</span>
+      </p>
+
+      <p class="mgcat-extra">Prefere pesquisar online? <a href="/busca-por-veiculo/">Buscar pela placa ou pelo veículo</a>, ou digite o código na busca do site.</p>
     </div>
-    <div class="mgcat-capa"><img src="https://cdn.jsdelivr.net/gh/filipefrancas/mg-site-arquivos@main/catalogo/capa-2025-2026.jpg" alt="Capa do catálogo MG 2025/2026" loading="lazy"></div>
+    <div class="mgcat-capa"><img src="https://cdn.jsdelivr.net/gh/filipefrancas/mg-site-arquivos@main/catalogo/capa-2025-2026.jpg" alt="Capa do catálogo MG 2025/2026" width="600" height="800" loading="lazy"></div>
+  </section>
+
+  <section class="mgcat-win" id="windows">
+    <div class="mgcat-win-tx">
+      <p class="mgcat-k mgcat-k-claro">Catálogo MG para Windows</p>
+      <h2>O catálogo que fica aberto no computador do balcão</h2>
+      <p class="mgcat-win-lead">Instale uma vez e consulte as peças MG direto no computador, mesmo sem internet.</p>
+      <ul class="mgcat-win-lista">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 9.5 17 19 7.5"/></svg><span><b>Consulta sem internet</b> depois de instalado</span></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 9.5 17 19 7.5"/></svg><span><b>Pesquisa por código</b> MG, código original ou veículo</span></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 9.5 17 19 7.5"/></svg><span><b>Foto e aplicação</b> de cada peça na tela</span></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 9.5 17 19 7.5"/></svg><span><b>Busca pela placa</b> do veículo, quando estiver conectado</span></li>
+      </ul>
+      <ol class="mgcat-passos">
+        <li><span>1</span>Baixe o instalador</li>
+        <li><span>2</span>Instale no PC</li>
+        <li><span>3</span>Pesquise as peças</li>
+      </ol>
+      <div class="mgcat-win-cta">
+        <a class="mgcat-btn mgcat-btn-claro" data-mgcat-baixar="windows" href="https://filescloud3.ideia2001.com.br/CatExp/AOAAH/InstalarCatalogoMgPecasAutomotivas.exe" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 5.1 10.4 4v7.2H3V5.1Zm0 13.8 7.4 1.1v-7.1H3v6Zm8.3 1.2L21 21.5v-8.6h-9.7v7.2Zm0-16.2v7.3H21V2.5l-9.7 1.4Z"/></svg>
+          Baixar para Windows
+        </a>
+        <span class="mgcat-win-meta">Instalador .exe · 40 MB<br>Para computador com Windows</span>
+      </div>
+      <p class="mgcat-win-cel">Está no celular? Mande o link para o computador do balcão: <button type="button" class="mgcat-copiar" data-mgcat-copiar>Copiar o link</button></p>
+    </div>
+    <div class="mgcat-win-vis">
+      <div class="mgcat-note" aria-hidden="true">
+        <div class="mgcat-note-tela"><img data-mgcat-tela src="https://cdn.jsdelivr.net/gh/filipefrancas/mg-site-arquivos@main/catalogo/tela-windows.jpg" alt="" width="1200" height="750" loading="lazy"></div>
+        <div class="mgcat-note-base"></div>
+      </div>
+      <p class="mgcat-selo">
+        <span class="mgcat-selo-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 5.1 10.4 4v7.2H3V5.1Zm0 13.8 7.4 1.1v-7.1H3v6Zm8.3 1.2L21 21.5v-8.6h-9.7v7.2Zm0-16.2v7.3H21V2.5l-9.7 1.4Z"/></svg></span>
+        <span><b data-mgcat-contador="windows">+33 mil</b><small>downloads no Windows</small></span>
+      </p>
+    </div>
   </section>
 
   <div class="mgcat-modos">
     <a class="mgcat-modo" href="/busca-por-veiculo/">
       <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#3498db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 12h.01M10 12h4M18 12h.01"/></svg></div>
       <h3>Pela placa</h3>
-      <p>Digite a placa e veja só as peças MG que servem no seu carro, com foto e aplicação.</p>
+      <p>Digite a placa e veja só as peças MG que servem no carro, com foto e aplicação.</p>
       <span class="mais">Buscar pela placa →</span>
     </a>
     <a class="mgcat-modo" href="/produtos/">
       <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#3498db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
       <h3>Online, no site</h3>
-      <p>Todas as linhas com foto, código MG, código original e veículos que a peça atende. Sempre atualizado.</p>
+      <p>Todas as linhas com foto, código MG, código original e veículos. Sempre atualizado.</p>
       <span class="mais">Ver todos os produtos →</span>
     </a>
-    <a class="mgcat-modo" href="https://filescloud3.ideia2001.com.br/CatExp/PDF/418-MG-Mangueiras.pdf" rel="noopener">
+    <a class="mgcat-modo" data-mgcat-baixar="windows" href="https://filescloud3.ideia2001.com.br/CatExp/AOAAH/InstalarCatalogoMgPecasAutomotivas.exe" rel="noopener">
+      <div class="ic"><svg viewBox="0 0 24 24"><path fill="#3498db" d="M3 5.1 10.4 4v7.2H3V5.1Zm0 13.8 7.4 1.1v-7.1H3v6Zm8.3 1.2L21 21.5v-8.6h-9.7v7.2Zm0-16.2v7.3H21V2.5l-9.7 1.4Z"/></svg></div>
+      <h3>Para Windows</h3>
+      <p>Instalado no computador, consulta rápida no balcão e sem depender da internet.</p>
+      <span class="mais">Baixar o instalador →</span>
+    </a>
+    <a class="mgcat-modo" data-mgcat-baixar="pdf" href="https://filescloud3.ideia2001.com.br/CatExp/PDF/418-MG-Mangueiras.pdf" target="_blank" rel="noopener">
       <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#3498db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg></div>
       <h3>Em PDF</h3>
-      <p>O catálogo inteiro num arquivo só, para salvar no celular, usar no balcão ou imprimir.</p>
+      <p>O catálogo inteiro num arquivo só, para salvar no celular ou imprimir.</p>
       <span class="mais">Baixar o PDF →</span>
     </a>
   </div>
@@ -69,10 +115,12 @@
   </section>
 
   <div class="mgcat-nota">
-    <b>Distribuidor ou lojista?</b> Fale com um representante MG na sua região em <a href="/representantes/">Representantes</a>. Já usa o aplicativo Baixe Catálogo? A MG também está lá, mas a versão mais completa e atualizada é sempre esta.
+    <b>É distribuidor?</b> Fale com o representante MG da sua região em <a href="/representantes/">Representantes</a>.
   </div>
   <div class="mgcat-rodape">
     <span>Edição 2025/2026 · atualizada em outubro de 2026</span>
-    <span>Fabricação nacional · MG Mangueiras Ltda., Diadema-SP</span>
+    <span>Fábrica própria em Diadema-SP · MG Mangueiras Ltda.</span>
+    <span>Contador: downloads do PDF e instalações do programa para Windows, somando este site e as outras plataformas onde o catálogo MG está.</span>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/gh/filipefrancas/mg-site-arquivos@main/catalogo/catalogo.js" defer></script>
